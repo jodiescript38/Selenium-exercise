@@ -1,4 +1,7 @@
+import os
+
 import pytest
+import pytest_html
 from selenium import webdriver
 
 
@@ -21,3 +24,25 @@ def setup(request):
     request.cls.driver = driver
     yield
     driver.close()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        # driver = item.funcargs.get("driver")
+        driver = getattr(item.instance, "driver", None)
+
+        print(driver.current_url)
+
+        if driver:
+            print("###### DRIVER EXISTS")
+            os.makedirs("reports/screenshots", exist_ok=True)
+
+            file_name = f"reports/screenshots/{item.name}.png"
+            driver.save_screenshot(file_name)
+
+            extra = getattr(report, "extra", [])
+            extra.append(pytest_html.extras.image(f"screenshots/{item.name}.png"))
+            report.extra = extra
