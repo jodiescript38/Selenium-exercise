@@ -4,7 +4,7 @@ Selenium, Pytest 자동화 실습 + Jenkins
 
 ## 구현
 - OS: Windows
-- Test Browser: Chrome, FireFox, Microsoft Edge 중 선택(Jenkins > 파라미터와 함께 빌드 > "BROWSER_NAME" 파라미터 값 선택)
+- Test Browser: Chrome, FireFox, Microsoft Edge 중 선택(Jenkins > "BROWSER_NAME" 파라미터 값 선택 후 빌드)
 - Language: Python
 - Framework: Selenium, pytest
 - IDE: PyCharm
